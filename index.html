@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crossword Puzzle</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <h1>Cruciverba</h1>
+      <ul id="level-list"></ul>
+      <p id="progress">Completa tutti i livelli per sbloccare il livello segreto!</p>
+    </aside>
+    <main>
+      <div id="crossword-container">
+        <p>Seleziona un livello per iniziare.</p>
+      </div>
+      <button id="check-answers" hidden>Controlla Risposte</button>
+    </main>
+  </div>
+  <div id="modal" hidden>
+    <div id="modal-content">
+      <p>Inserisci la frase segreta per sbloccare il livello segreto:</p>
+      <input type="text" id="password" placeholder="Inserisci la frase">
+      <button id="submit-password">Invia</button>
+    </div>
+  </div>
+  <script src="crosswords.js"></script>
+</body>
+</html>
