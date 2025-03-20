@@ -1,33 +1,383 @@
-
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crossword Puzzle</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <title>The precious things you say</title>
+  <!-- Use the Inter font: -->
+  <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
+
+  <style>
+    /* -----------------------------
+       PINK GRADIENT BACKGROUND & GENERAL PAGE STYLES
+       ----------------------------- */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(120deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #fad0c4);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #ffffff;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      max-width: 1000px;
+      padding: 20px;
+    }
+
+    /* -----------------------------
+       SIDEBAR-STYLE GRID FOR THE CLUES
+       ----------------------------- */
+    #sidebar {
+      width: 600px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    #sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #sidebar ul li {
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 0 0 10px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #sidebar ul li:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* -----------------------------
+       CROSSWORD TABLE
+       ----------------------------- */
+    #crossword-board {
+      width: 100%;
+      max-width: 700px;
+      overflow-x: auto;
+      margin: 0 auto;
+    }
+    #crossword-table {
+      border-collapse: collapse;
+      margin: 0 auto;
+    }
+    #crossword-table td {
+      width: 35px;
+      height: 35px;
+      text-align: center;
+      vertical-align: middle;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    /* Input squares for letters */
+    #crossword-table td input {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.4);
+      color: #ffffff;
+      border: none;
+      font-size: 1rem;
+    }
+    #crossword-table td input:focus {
+      outline: 2px solid rgba(255, 255, 255, 0.6);
+    }
+    /* Black squares (unused cells) */
+    #crossword-table td.black {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+  </style>
 </head>
+
 <body>
+  <h1>The precious things you say</h1>
   <div id="app">
-    <aside id="sidebar">
-      <h1>Cruciverba</h1>
-      <ul id="level-list"></ul>
-      <p id="progress">Completa tutti i livelli per sbloccare il livello segreto!</p>
-    </aside>
-    <main>
-      <div id="crossword-container">
-        <p>Seleziona un livello per iniziare.</p>
-      </div>
-      <button id="check-answers" hidden>Controlla Risposte</button>
-    </main>
-  </div>
-  <div id="modal" hidden>
-    <div id="modal-content">
-      <p>Inserisci la frase segreta per sbloccare il livello segreto:</p>
-      <input type="text" id="password" placeholder="Inserisci la frase">
-      <button id="submit-password">Invia</button>
+    <!-- Clues Section -->
+    <div id="sidebar">
+      <ul>
+        <li><strong>1:</strong> Twitter might cancel you for the way you say it. <br><em>Answer:</em> CANCELLATION CULTURE</li>
+        <li><strong>2:</strong> The lives of these group of ladies in college is also called. <br><em>Answer:</em> SEXY GIRLS OF UNIVERSITY</li>
+        <li><strong>3:</strong> Angelina mango sang it but you made me cry for real when you pronounced it, ohn lennon would be proud. <br><em>Answer:</em> IMAGINE</li>
+        <li><strong>4:</strong> Making amends by taking each other's clothes off. <br><em>Answer:</em> REPARATION SEX</li>
+      </ul>
+      <ul>
+        <li><strong>5:</strong> The result of slicing wood to shape? <br><em>Answer:</em> CUT BOARD</li>
+        <li><strong>6:</strong> Someone else would call it a game evening. <br><em>Answer:</em> PLAY NIGHT</li>
+        <li><strong>7:</strong> Your favorite show. <br><em>Answer:</em> ABBOT UNIVERSITY</li>
+        <li><strong>8:</strong> How do you leave a plane? <br><em>Answer:</em> DEBORDING IT</li>
+      </ul>
+    </div>
+
+    <!-- Basic Crossword Layout -->
+    <div id="crossword-board">
+      <table id="crossword-table">
+        <!--
+          We’ll create 8 rows (one per “word”), each row with 21 columns 
+          (the max length among all answers, ignoring spaces).
+        -->
+        <tbody>
+          <!-- Row 1: "CANCELLATIONCULTURE" (20 letters ignoring space), so we'll fill up to 21. -->
+          <tr>
+            <!-- C A N C E L L A T I O N C U L T U R E  (20 letters) -->
+            <!-- We'll just skip the space in "cancellation culture." -->
+            <td><input type="text" maxlength="1"></td> <!-- C -->
+            <td><input type="text" maxlength="1"></td> <!-- A -->
+            <td><input type="text" maxlength="1"></td> <!-- N -->
+            <td><input type="text" maxlength="1"></td> <!-- C -->
+            <td><input type="text" maxlength="1"></td> <!-- E -->
+            <td><input type="text" maxlength="1"></td> <!-- L -->
+            <td><input type="text" maxlength="1"></td> <!-- L -->
+            <td><input type="text" maxlength="1"></td> <!-- A -->
+            <td><input type="text" maxlength="1"></td> <!-- T -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- O -->
+            <td><input type="text" maxlength="1"></td> <!-- N -->
+            <td><input type="text" maxlength="1"></td> <!-- C -->
+            <td><input type="text" maxlength="1"></td> <!-- U -->
+            <td><input type="text" maxlength="1"></td> <!-- L -->
+            <td><input type="text" maxlength="1"></td> <!-- T -->
+            <td><input type="text" maxlength="1"></td> <!-- U -->
+            <td><input type="text" maxlength="1"></td> <!-- R -->
+            <td><input type="text" maxlength="1"></td> <!-- E -->
+            <!-- Extra cell for 21st column (black square) -->
+            <td class="black"></td>
+            <td class="black"></td>
+          </tr>
+
+          <!-- Row 2: "SEXYGIRLSOFUNIVERSITY" (21 letters ignoring spaces) -->
+          <tr>
+            <!-- S E X Y G I R L S O F U N I V E R S I T Y -->
+            <td><input type="text" maxlength="1"></td> <!-- S -->
+            <td><input type="text" maxlength="1"></td> <!-- E -->
+            <td><input type="text" maxlength="1"></td> <!-- X -->
+            <td><input type="text" maxlength="1"></td> <!-- Y -->
+            <td><input type="text" maxlength="1"></td> <!-- G -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- R -->
+            <td><input type="text" maxlength="1"></td> <!-- L -->
+            <td><input type="text" maxlength="1"></td> <!-- S -->
+            <td><input type="text" maxlength="1"></td> <!-- O -->
+            <td><input type="text" maxlength="1"></td> <!-- F -->
+            <td><input type="text" maxlength="1"></td> <!-- U -->
+            <td><input type="text" maxlength="1"></td> <!-- N -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- V -->
+            <td><input type="text" maxlength="1"></td> <!-- E -->
+            <td><input type="text" maxlength="1"></td> <!-- R -->
+            <td><input type="text" maxlength="1"></td> <!-- S -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- T -->
+            <td><input type="text" maxlength="1"></td> <!-- Y -->
+          </tr>
+
+          <!-- Row 3: "IMAGINE" (7 letters) -->
+          <tr>
+            <!-- I M A G I N E -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- M -->
+            <td><input type="text" maxlength="1"></td> <!-- A -->
+            <td><input type="text" maxlength="1"></td> <!-- G -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- N -->
+            <td><input type="text" maxlength="1"></td> <!-- E -->
+            <!-- The rest are black squares -->
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+          </tr>
+
+          <!-- Row 4: "REPARATIONSEX" (13 letters ignoring space) -->
+          <tr>
+            <!-- R E P A R A T I O N S E X -->
+            <td><input type="text" maxlength="1"></td> <!-- R -->
+            <td><input type="text" maxlength="1"></td> <!-- E -->
+            <td><input type="text" maxlength="1"></td> <!-- P -->
+            <td><input type="text" maxlength="1"></td> <!-- A -->
+            <td><input type="text" maxlength="1"></td> <!-- R -->
+            <td><input type="text" maxlength="1"></td> <!-- A -->
+            <td><input type="text" maxlength="1"></td> <!-- T -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- O -->
+            <td><input type="text" maxlength="1"></td> <!-- N -->
+            <td><input type="text" maxlength="1"></td> <!-- S -->
+            <td><input type="text" maxlength="1"></td> <!-- E -->
+            <td><input type="text" maxlength="1"></td> <!-- X -->
+            <!-- Black squares for the rest -->
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+          </tr>
+
+          <!-- Row 5: "CUTBOARD" (8 letters ignoring space) -->
+          <tr>
+            <!-- C U T B O A R D -->
+            <td><input type="text" maxlength="1"></td> <!-- C -->
+            <td><input type="text" maxlength="1"></td> <!-- U -->
+            <td><input type="text" maxlength="1"></td> <!-- T -->
+            <td><input type="text" maxlength="1"></td> <!-- B -->
+            <td><input type="text" maxlength="1"></td> <!-- O -->
+            <td><input type="text" maxlength="1"></td> <!-- A -->
+            <td><input type="text" maxlength="1"></td> <!-- R -->
+            <td><input type="text" maxlength="1"></td> <!-- D -->
+            <!-- Black squares -->
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+          </tr>
+
+          <!-- Row 6: "PLAYNIGHT" (9 letters ignoring space) -->
+          <tr>
+            <!-- P L A Y N I G H T -->
+            <td><input type="text" maxlength="1"></td> <!-- P -->
+            <td><input type="text" maxlength="1"></td> <!-- L -->
+            <td><input type="text" maxlength="1"></td> <!-- A -->
+            <td><input type="text" maxlength="1"></td> <!-- Y -->
+            <td><input type="text" maxlength="1"></td> <!-- N -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- G -->
+            <td><input type="text" maxlength="1"></td> <!-- H -->
+            <td><input type="text" maxlength="1"></td> <!-- T -->
+            <!-- Black squares for the rest -->
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+          </tr>
+
+          <!-- Row 7: "ABBOTUNIVERSITY" (15 letters ignoring space) -->
+          <tr>
+            <!-- A B B O T U N I V E R S I T Y -->
+            <td><input type="text" maxlength="1"></td> <!-- A -->
+            <td><input type="text" maxlength="1"></td> <!-- B -->
+            <td><input type="text" maxlength="1"></td> <!-- B -->
+            <td><input type="text" maxlength="1"></td> <!-- O -->
+            <td><input type="text" maxlength="1"></td> <!-- T -->
+            <td><input type="text" maxlength="1"></td> <!-- U -->
+            <td><input type="text" maxlength="1"></td> <!-- N -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- V -->
+            <td><input type="text" maxlength="1"></td> <!-- E -->
+            <td><input type="text" maxlength="1"></td> <!-- R -->
+            <td><input type="text" maxlength="1"></td> <!-- S -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- T -->
+            <td><input type="text" maxlength="1"></td> <!-- Y -->
+            <!-- Black squares for the rest -->
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+          </tr>
+
+          <!-- Row 8: "DEBORDINGIT" (11 letters ignoring space) -->
+          <tr>
+            <!-- D E B O R D I N G I T -->
+            <td><input type="text" maxlength="1"></td> <!-- D -->
+            <td><input type="text" maxlength="1"></td> <!-- E -->
+            <td><input type="text" maxlength="1"></td> <!-- B -->
+            <td><input type="text" maxlength="1"></td> <!-- O -->
+            <td><input type="text" maxlength="1"></td> <!-- R -->
+            <td><input type="text" maxlength="1"></td> <!-- D -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- N -->
+            <td><input type="text" maxlength="1"></td> <!-- G -->
+            <td><input type="text" maxlength="1"></td> <!-- I -->
+            <td><input type="text" maxlength="1"></td> <!-- T -->
+            <!-- Black squares for the rest -->
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+            <td class="black"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  <script src="crosswords.js"></script>
+
+  <!-- Optional JS (currently does nothing fancy, but you could enhance it later) -->
+  <script>
+    // You could add crossword validation or other interactions here if you like.
+    console.log("Crossword page loaded. Feel free to enhance with JavaScript!");
+  </script>
 </body>
 </html>
