@@ -5,9 +5,10 @@
   <title>The precious things you say</title>
   <!-- Use the Inter font -->
   <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
+
   <style>
     /* -----------------------------
-       PINK GRADIENT BACKGROUND & GENERAL PAGE STYLES
+       Pink Gradient & Tamagui-Style
        ----------------------------- */
     body {
       font-family: 'Inter', sans-serif;
@@ -17,6 +18,7 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+
       /* Animated pink gradient background */
       background: linear-gradient(120deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #fad0c4);
       background-size: 400% 400%;
@@ -30,6 +32,7 @@
       100% { background-position: 0% 50%; }
     }
 
+    /* Title */
     h1 {
       font-size: 4rem;
       font-weight: 900;
@@ -38,86 +41,21 @@
       -webkit-text-fill-color: transparent;
       text-align: center;
       margin-top: 40px;
-      margin-bottom: 10px;
+      margin-bottom: 0;
     }
 
+    /* Sweet Message */
     #subtitle {
       font-size: 1.2rem;
       color: rgba(255, 255, 255, 0.8);
       text-align: center;
-      margin-bottom: 30px;
+      max-width: 600px;
+      line-height: 1.5;
+      margin-bottom: 40px;
+      margin-top: 10px;
     }
 
     /* Main container */
     #app {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 1200px;
-      padding: 20px;
-    }
-
-    /* Crossword container (for PuzzleFast script) */
-    #crossword-container {
-      width: 100%;
-      max-width: 900px;
-      background-color: rgba(0, 0, 0, 0.35);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      margin-bottom: 20px;
-    }
-
-    /* Clue list (no answers shown) */
-    #clues {
-      margin-top: 20px;
-      max-width: 900px;
-      width: 100%;
-    }
-    #clues ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    #clues li {
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.1);
-      margin-bottom: 8px;
-      border-radius: 6px;
-    }
-    /* When hovering over a clue, lighten it a bit */
-    #clues li:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-  </style>
-</head>
-
-<body>
-  <h1>The precious things you say</h1>
-  <div id="subtitle">A secret crossword puzzle (no solution link!)</div>
-
-  <div id="app">
-    <!-- Crossword Puzzle from PuzzleFast -->
-    <div id="crossword-container">
-      <!-- Embed the puzzle WITHOUT solution link -->
-      <script src="https://www.puzzlefast.com/en/puzzles/2025032022334950N/nsl-script?width=600px&height=800px" type="text/javascript"></script>
-    </div>
-
-    <!-- Clues only (no answers revealed) -->
-    <div id="clues">
-      <ul>
-        <li><strong>1.</strong> Twitter might cancel you for the way you say it.</li>
-        <li><strong>2.</strong> The lives of these group of ladies in college is also called.</li>
-        <li><strong>3.</strong> Angelina Mango sang it, but your version made me cry. John Lennon would be proud.</li>
-        <li><strong>4.</strong> Making amends by taking each other’s clothes off.</li>
-        <li><strong>5.</strong> You generate a clue for this one, apparently involving wood.</li>
-        <li><strong>6.</strong> Someone else would call it a game evening.</li>
-        <li><strong>7.</strong> Your favorite show.</li>
-        <li><strong>8.</strong> How do you leave a plane?</li>
-      </ul>
-    </div>
-  </div>
-
-</body>
-</html>
+      flex-direction: column
