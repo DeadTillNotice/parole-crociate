@@ -5,7 +5,6 @@
   <title>The precious things you say</title>
   <!-- Use the Inter font -->
   <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
-
   <style>
     /* -----------------------------
        PINK GRADIENT BACKGROUND & GENERAL PAGE STYLES
@@ -18,7 +17,6 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-
       /* Animated pink gradient background */
       background: linear-gradient(120deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #fad0c4);
       background-size: 400% 400%;
@@ -40,16 +38,14 @@
       -webkit-text-fill-color: transparent;
       text-align: center;
       margin-top: 40px;
-      margin-bottom: 0;
+      margin-bottom: 10px;
     }
 
     #subtitle {
       font-size: 1.2rem;
       color: rgba(255, 255, 255, 0.8);
       text-align: center;
-      margin-bottom: 20px;
-      max-width: 600px;
-      line-height: 1.5;
+      margin-bottom: 30px;
     }
 
     /* Main container */
@@ -71,23 +67,6 @@
       padding: 20px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.3);
       margin-bottom: 20px;
-      min-height: 800px; /* Ensure enough space for puzzle */
-    }
-
-    /* Button styling */
-    button {
-      padding: 12px 20px;
-      background: rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.3s ease;
-      margin-bottom: 30px;
-    }
-    button:hover {
-      background: rgba(255, 255, 255, 0.4);
     }
 
     /* Clue list (no answers shown) */
@@ -107,6 +86,7 @@
       margin-bottom: 8px;
       border-radius: 6px;
     }
+    /* When hovering over a clue, lighten it a bit */
     #clues li:hover {
       background: rgba(255, 255, 255, 0.2);
     }
@@ -115,23 +95,14 @@
 
 <body>
   <h1>The precious things you say</h1>
-
-  <div id="subtitle">
-    Hey my love, today I couldn't stop thinking about your words, so I made you this.<br>
-    I love you.
-  </div>
+  <div id="subtitle">A secret crossword puzzle (no solution link!)</div>
 
   <div id="app">
-    <!-- Crossword Puzzle from PuzzleFast (No Solution Link) -->
+    <!-- Crossword Puzzle from PuzzleFast -->
     <div id="crossword-container">
-      <script 
-        src="https://www.puzzlefast.com/en/puzzles/2025032022334950N/nsl-script?width=600px&height=800px" 
-        type="text/javascript">
-      </script>
+      <!-- Embed the puzzle WITHOUT solution link -->
+      <script src="https://www.puzzlefast.com/en/puzzles/2025032022334950N/nsl-script?width=600px&height=800px" type="text/javascript"></script>
     </div>
-
-    <!-- Button to (attempt to) check answers -->
-    <button id="checkButton" type="button">Check Puzzle</button>
 
     <!-- Clues only (no answers revealed) -->
     <div id="clues">
@@ -147,69 +118,6 @@
       </ul>
     </div>
   </div>
-
-  <script>
-    // Potentially check puzzle function:
-    // NOTE: This likely won't work for PuzzleFast's embedded script, 
-    // because the puzzle is in an iFrame or specialized element.
-    // If puzzle is accessible in the DOM, we can attempt to read user inputs 
-    // and compare them to the known solutions.
-
-    // Example data (the "correct" solution strings, ignoring spaces):
-    // But these are purely examples, the puzzle layout from PuzzleFast
-    // might not store them in these exact places or field IDs.
-    const correctAnswers = [
-      "CANCELLATIONCULTURE",
-      "SEXYGIRLSOFUNIVERSITY",
-      "IMAGINE",
-      "REPARATIONSEX",
-      "CUTBOARD",
-      "PLAYNIGHT",
-      "ABBOTUNIVERSITY",
-      "DEBORDINGIT"
-    ];
-
-    // Our naive check:
-    function checkPuzzle() {
-      try {
-        // 1) Attempt to find puzzle input fields in DOM
-        //    This might not exist if PuzzleFast uses an iFrame or canvas.
-        const puzzleInputs = document.querySelectorAll('.crossword-cell input');
-        if (!puzzleInputs || puzzleInputs.length === 0) {
-          alert("Sorry, can't access the puzzle fields to check. But I believe in you!");
-          return;
-        }
-
-        // 2) Collect the letters user typed
-        let userLetters = "";
-        puzzleInputs.forEach(input => {
-          // For example, ignore blanks or punctuation
-          userLetters += (input.value || "").toUpperCase();
-        });
-
-        // 3) Compare user letters with any known answers
-        //    This is only an example approach:
-        let allWordsFound = true;
-        for (let correct of correctAnswers) {
-          if (!userLetters.includes(correct)) {
-            allWordsFound = false;
-            break;
-          }
-        }
-
-        if (allWordsFound) {
-          alert("Congrats! You solved it (or at least got the key words) ♥");
-        } else {
-          alert("It doesn't look complete yet. Keep trying!");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Couldn't check puzzle automatically. But keep going, you're almost there!");
-      }
-    }
-
-    document.getElementById('checkButton').addEventListener('click', checkPuzzle);
-  </script>
 
 </body>
 </html>
